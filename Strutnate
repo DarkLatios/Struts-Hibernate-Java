@@ -1,0 +1,309 @@
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+
+<html:html lang="true">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title><bean:message key="welcome.title"/></title>
+        <html:base/>
+    </head>
+    <body style="background-color: white">
+        
+        <logic:notPresent name="org.apache.struts.action.MESSAGE" scope="application">
+            <div  style="color: red">
+                ERROR:  Application resources not loaded -- check servlet container
+                logs for error messages.
+            </div>
+        </logic:notPresent>
+        
+        <h3><bean:message key="welcome.heading"/></h3>
+        <p><bean:message key="welcome.message"/></p>
+        
+    </body>
+</html:html>
+
+
+
+
+
+
+
+<%-- 
+    Document   : update
+    Created on : Jul 11, 2016, 12:14:15 PM
+    Author     : DarkLatios
+--%>
+
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+
+<html:html lang="true">
+    
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>School Page</title>
+        <html:base/>
+    </head>
+    <h1>READY TO UPDATE!</h1>
+    <body style="background-color: silver">
+        <html:form action="/searchpath" method="post">
+            ENTER THE ID &nbsp; <html:text property="id"></html:text>
+            <html:submit value="Search"></html:submit><br>
+        </html:form>
+         <logic:iterate name="userlist" id="LoginBean">  
+         
+             <html:text property="id" value="<bean:write name='LoginBean' property='fname'/>"></html:text>
+         </logic:iterate>  
+         
+        <html:form action="/basepath" method="post">
+            ENTER THE ID &nbsp; <html:text property="id"></html:text><br>
+            First Name &nbsp; <html:text property="finame" value=""></html:text><br>
+            Last Name &nbsp; <html:text property="laname" value=""></html:text><br>
+            Age&nbsp; &nbsp; <html:text property="age" value="cc"></html:text><br>
+                    <html:submit value="UPDATE"></html:submit>
+            
+        </html:form>
+        <html:link action="/show">SHOW DETAILS</html:link>
+         
+        
+    </body>
+</html:html>
+
+
+
+
+
+
+<%-- 
+    Document   : See
+    Created on : Jul 8, 2016, 3:03:37 PM
+    Author     : DarkLatios
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8" import="com.myapp.struts.LoginBean"%>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Student Details</title>
+    </head>
+    <body>
+        <h1>Student Details!</h1>
+        <table>
+        <logic:iterate name="userlist" id="LoginBean">
+            <tr>
+                <td>
+                    <bean:write name="LoginBean" property="id"/>
+                </td>
+                <td>
+                    <bean:write name="LoginBean" property="fname"/>
+                </td>
+                <td>
+                    <bean:write name="LoginBean" property="lname"/>
+                </td>
+                <td>
+                    <bean:write name="LoginBean" property="age"/>
+                </td>
+            </tr>
+        </logic:iterate>
+        </table>
+        <html:link action="/update">UPDATE</html:link>
+    </body>
+</html>
+
+
+
+
+
+
+<%-- 
+    Document   : success
+    Created on : Jul 2, 2016, 1:25:17 PM
+    Author     : DarkLatios
+--%>
+
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+
+<html:html lang="true">
+    
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>School Page</title>
+        <html:base/>
+    </head>
+    <h1>Login Successful!!</h1>
+    <body style="background-color: silver">
+        <html:form action="/regpath" method="post">
+            Firstname &nbsp; <html:text property="fname"></html:text><br>
+            Lastname &nbsp; <html:text property="lname"></html:text><br>
+            Age&nbsp; &nbsp; <html:text property="age"></html:text><br>
+                    <html:submit value="submit"></html:submit>
+            
+        </html:form>
+        <html:link action="/show">SHOW DETAILS</html:link>
+         
+        
+    </body>
+</html:html>
+
+
+
+
+<%-- 
+    Document   : login
+    Created on : Jul 2, 2016, 1:14:20 PM
+    Author     : DarkLatios
+--%>
+
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+
+
+<html:html lang="true">
+    
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Login page</title>
+        <html:base/>
+    </head>
+    <body style="background-color: greenyellow">
+        <html:form action="/loginpath" method="post">
+            Username&nbsp;<html:text property="lUsername"></html:text><br>
+            Password&nbsp;<html:password property="lPassword"></html:password><br>
+            <html:submit value="Login"></html:submit><html:reset value="reset" ></html:reset>
+            
+        </html:form>
+            <html:link action="/Welcome.do">Sign Up</html:link> 
+            
+        
+    </body>
+</html:html>
+
+
+
+
+
+<%-- 
+    Document   : SignUp
+    Created on : Jul 5, 2016, 4:10:54 PM
+    Author     : DarkLatios
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<!DOCTYPE html>
+<html:html lang="true">
+    
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Login page</title>
+        <html:base/>
+    </head>
+    <body style="background-color: greenyellow">
+        <html:form action="/datapath" method="post">
+            Username&nbsp;<html:text property="lUsername"></html:text><br>
+            Password&nbsp;<html:password property="lPassword"></html:password><br>
+            Phone Number &nbsp;<html:text property="pnumber"></html:text>
+            <html:submit value="SIGNUP"></html:submit>
+            
+            
+        </html:form>
+            
+            
+        
+    </body>
+</html:html>
+
+<%-- 
+    Document   : Unsuccessful
+    Created on : Jul 4, 2016, 12:54:59 PM
+    Author     : DarkLatios
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>FAILURE</title>
+    </head>
+    <body>
+        <h1>DATA NOT ENTERED!!!!</h1>
+    </body>
+</html>
+
+<%-- 
+    Document   : Successful
+    Created on : Jul 2, 2016, 7:28:43 PM
+    Author     : user
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>DATA ENTERED SUCCESSFULLY!!!!</h1>
+    </body>
+</html>
+
+
+
+<%-- 
+    Document   : Failure
+    Created on : Jul 2, 2016, 1:25:50 PM
+    Author     : user
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>Login Failed<h1>
+                USERNAME OR PASSWORD INCORRECT RETRY!!
+    </body>
+</html>
+
+//HTML FILE
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+
+<jsp:forward page="Welcome.do"/>
+
+
+
