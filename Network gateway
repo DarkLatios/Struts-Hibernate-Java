@@ -1,0 +1,192 @@
+//First Copy This and paste on Notepad 
+import java.sql.*;
+import java.util.Scanner;
+public class Mydata {
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+   static final String DB_URL = "jdbc:mysql://localhost:3306/";
+
+   //  Database credentials
+   static final String USER = "root";
+   static final String PASS = "root";
+   
+   public static void main(String[] args) throws SQLException, ClassNotFoundException {
+   Connection conn = null;
+   Statement stmt = null;
+   try{
+       
+     
+      Class.forName("com.mysql.jdbc.Driver");
+
+      
+      System.out.println("Connecting to database...");
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+      System.out.println("Database connected successfully");
+    
+      //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the name of the entry");
+        String na=sc.nextLine();
+        System.out.println("Enter The ID of the entry");
+        int id=sc.nextInt();
+        String name="entry";
+        String tbl="tbl name";
+        stmt = conn.createStatement();
+        
+        System.out.println("Checking for pre existing database and table");
+        //String sql="SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='"+name+"' AND table_name = '"+tbl+"'";
+        String sql="SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '"+name+"' AND table_name = '"+tbl+"'";
+        ResultSet rt = stmt.executeQuery(sql);    
+        System.out.println("query run properly");
+        rt.next();
+        int exists = rt.getInt("COUNT(*)");
+        System.out.println(exists);
+        if(exists!=0)
+        {
+       System.out.println("found");
+       try (Connection co = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/"+name+"","root","root")) {
+           System.out.println("Entering the database");
+           Statement stmt10=(Statement)co.createStatement();
+       
+       System.out.println("Executing Query");
+       String sq= "INSERT INTO Databasename VALUES("+id+",'"+na+"')";
+       stmt10.executeUpdate(sq);
+       System.out.println("Records Added");
+       ResultSet rs=stmt10.executeQuery("select*from database name");
+               while(rs.next())
+               {
+                   System.out.println(rs.getInt(1));
+                    System.out.println(rs.getString(2));
+                     //System.out.println(rs.getString(3));
+                      //System.out.println(rs.getInt(4));
+               }
+        }
+        }
+        else
+        {
+            try{
+         System.out.println("Creating database...");
+         stmt = conn.createStatement();
+      
+         String sq1 = "CREATE DATABASE "+name;
+         stmt.executeUpdate(sq1);
+         System.out.println("Database created successfully...");
+   }catch(SQLException se){
+       se.printStackTrace();
+   }catch(Exception e){
+   }finally{
+      //finally block used to close resources
+      try{
+         if(stmt!=null) {
+              stmt.close();
+          }
+      }catch(SQLException se2){
+      }// nothing we can do
+      try{
+         if(conn!=null) {
+              conn.close();
+          }
+      }catch(SQLException se){
+      }//end finally try   
+        }
+      try (Connection com = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/"+name+"","root","root")) {
+           System.out.println("Entering the database");
+
+      System.out.println("Creating table in given database...");
+      String sq2 =  "CREATE TABLE "+tbl+" (id INTEGER not NULL, name VARCHAR(255), PRIMARY KEY ( id ))";
+      Statement stmt1=com.createStatement();
+      Statement stmt2=com.createStatement();
+      stmt1.executeUpdate(sq2);
+      System.out.println("query run properly");
+      System.out.println("Created table in given database...");
+      String sq3= "INSERT INTO databasename VALUES("+id+","+na+")";
+      stmt2.executeUpdate(sq3);
+      System.out.println("Records Added");
+          
+           
+               Statement stm=(Statement) com.createStatement();
+               ResultSet rs=stm.executeQuery("select*from databasename");
+               while(rs.next())
+               {
+                   System.out.println(rs.getInt(1));
+                    System.out.println(rs.getString(2));
+                     //System.out.println(rs.getString(3));
+                      //System.out.println(rs.getInt(4));
+               }
+           }
+        }
+   }
+catch(SQLException se){
+    se.printStackTrace();
+   }catch(Exception e){
+   }finally{
+      //finally block used to close resources
+      try{
+         if(stmt!=null) {
+              conn.close();
+          }
+      }catch(SQLException se){
+      }// do nothing
+      try{
+         if(conn!=null) {
+              conn.close();
+          }
+      }catch(SQLException se){
+      }//end finally try
+   }
+   }
+}
+    
+//Create a new class in same package and paste this for implementation.....I have used Ozeki Ng Gateway SMPP as well as HTTP....
+import java.sql.*;
+import java.util.Scanner;
+public class DbInsert {
+   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+   static final String DB_URL = "jdbc:mysql://localhost:3306/ozeki";
+
+   
+   static final String USER = "ozekiuser";
+   static final String PASS = "ozekipass";
+   
+   public static void main(String[] args) throws SQLException {
+   Connection conn = null;
+   Statement stmt = null;
+   try{
+       Scanner sc=new Scanner(System.in);
+       System.out.println("Enter the phone number with country code");
+       String smsReceiver = sc.nextLine();
+       System.out.println("Enter the message");
+       String message     = sc.nextLine();
+       
+     
+      Class.forName(JDBC_DRIVER);
+
+      
+      System.out.println("Connecting to database...");
+      conn =(Connection) DriverManager.getConnection(DB_URL, USER, PASS);
+      System.out.println("Database connected successfully");
+               stmt = conn.createStatement();
+               String sqlInsert ="INSERT INTO ozekimessageout (receiver,msg,status) VALUES('" + smsReceiver + "','"+ message +"','send')";
+                        System.out.println("Query Run Properly");
+                        if(stmt.executeUpdate(sqlInsert) != 0)
+                        {
+                                System.out.println("OK");
+
+                        }
+                        else
+                        {
+                                System.out.println("ERROR");
+                        }
+
+                        stmt.close();
+                        conn.close();
+                }
+                catch(Exception ex)
+                {
+                        System.out.println("Exception: " + ex.getMessage());
+                        ex.printStackTrace();
+                        
+                }
+        }
+
+}
+//Enjoy!!!!!!!
