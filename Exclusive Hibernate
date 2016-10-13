@@ -1,0 +1,256 @@
+/*Created By Dark Latios,No copyrights ,Open source
+Enjoy!!!!!*/
+
+
+//Hibernate.Util ....
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.SessionFactory;
+
+/**
+ * Hibernate Utility class with a convenient method to get Session Factory
+ * object.
+ *
+ * @author user
+ */
+public class HibernateUtil {
+
+    private static final SessionFactory sessionFactory;
+    
+    static {
+        try {
+            // Create the SessionFactory from standard (hibernate.cfg.xml) 
+            // config file.
+            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            // Log the exception. 
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+    
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+}
+
+
+
+
+//New JSP
+
+
+import org.hibernate.Session;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author user
+ */
+public class StudentDAO {
+    //private Student m;
+    private HibernateUtil helper;
+    private Session session;
+    
+    public void addMember(Student s)
+    {
+        //m= new info("San", "Andreas", 5);
+        session=helper.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(s);
+        session.getTransaction().commit();
+        session.close();
+        
+    }
+    //return "success";
+    
+}
+
+
+
+
+//New HTTP request Servlet
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author user
+ */
+public class studentinfo extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        try {
+            String fname=request.getParameter("Firstname");
+            String lname=request.getParameter("Lastname");
+            String a=request.getParameter("Age");
+            int age=Integer.parseInt(a);
+            Student s=new Student(fname, lname, age);
+            StudentDAO sd=new StudentDAO();
+            sd.addMember(s);
+          
+        } finally {
+            out.close();
+        }
+    }
+    
+    
+    //NEW SERVLET.....
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
+
+
+//New class
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author user
+ */
+public class test {
+    public static void main(String []args){
+        Student st=new Student("Dark", "Latios", 18);
+        StudentDAO d=new StudentDAO();
+        d.addMember(st);
+        System.out.println("hello adi data is added successfully");
+    }
+}
+
+
+
+
+//Constructor Class
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author user
+ */
+public class Student {
+    private String Firstname;
+    private String Lastname;
+    private int Age;
+    private int id;
+
+    public Student(String Firstname, String Lastname, int Age) {
+        this.Firstname = Firstname;
+        this.Lastname = Lastname;
+        this.Age = Age;
+    }
+
+    public String getFirstname() {
+        return Firstname;
+    }
+
+    public void setFirstname(String Firstname) {
+        this.Firstname = Firstname;
+    }
+
+    public String getLastname() {
+        return Lastname;
+    }
+
+    public void setLastname(String Lastname) {
+        this.Lastname = Lastname;
+    }
+
+    public int getAge() {
+        return Age;
+    }
+
+    public void setAge(int Age) {
+        this.Age = Age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
+}
