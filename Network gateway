@@ -1,3 +1,7 @@
+/*Written By Dark Latios no copyrights,Follow Instructions.....
+Enjoy!!!!!*/
+
+
 //First Copy This and paste on Notepad 
 import java.sql.*;
 import java.util.Scanner;
@@ -189,4 +193,4 @@ public class DbInsert {
         }
 
 }
-//Enjoy!!!!!!!
+
