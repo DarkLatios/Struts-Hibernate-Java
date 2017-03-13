@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Student" table="info" catalog="report">
+        <id type="integer" column="id">
+            <generator class="identity"></generator>
+        </id>
+        <property column="Firstname" name="Firstname" type="string"></property>
+        <property column="Lastname" name="Lastname" type="string"></property>
+        <property column="Age" name="Age" type="integer"></property>
+    </class>
+  
+</hibernate-mapping>
